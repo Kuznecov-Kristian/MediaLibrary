@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${name}">Image</title>
+</head>
+<body>
+<div>
+    <h1 th:text="${name}">Image Name</h1>
+    <div>
+        <img th:if="${image}" th:src="'data:' + ${mimeType} + ';base64,' + ${image}" alt="Image">
+        <p th:if="${message}" th:text="${message}">No Image Found</p>
+    </div>
+</div>
+</body>
+</html>
