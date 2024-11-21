@@ -45,13 +45,12 @@ public class Pack {
     @JoinColumn(name = "user_id")
     private AppUser user; // Владелец пакета
 
+
     public Pack(String name, String description, boolean accessibleToAll, boolean accessibleToFriends) {
         this.name = name;
         this.description = description;
         this.accessibleToAll = accessibleToAll;
         this.accessibleToFriends = accessibleToFriends;
     }
-
-
 }
 

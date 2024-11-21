@@ -76,34 +76,6 @@ public class DevelopmentProfileDataLoaderConfiguration {
         };
     }
 
-
-//    @Bean
-//    @Order(1) // Устанавливает порядок, 1 - самый высокий приоритет
-//    public CommandLineRunner dataLoader(PictureRepository repo) {
-//        return args -> {
-//            try {
-//                byte[] imageData1 = Files.readAllBytes(Paths.get("src/main/resources/static/5287488729088387013.jpg"));
-//                byte[] imageData2 = Files.readAllBytes(Paths.get("src/main/resources/static/5287488729088387014.jpg"));
-//                byte[] imageData3 = Files.readAllBytes(Paths.get("src/main/resources/static/5287488729088387015.jpg"));
-//
-//                Picture picture1 = new Picture();
-//                Picture picture2 = new Picture();
-//                Picture picture3 = new Picture();
-//
-//                picture1.setData(imageData1);
-//                picture2.setData(imageData2);
-//                picture3.setData(imageData3);
-//
-//                repo.save(picture1);
-//                repo.save(picture2);
-//                repo.save(picture3);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        };
-//    }
-
     @Bean
     @Order(3) // Устанавливает порядок, 1 - самый высокий приоритет
     public CommandLineRunner FilmsLoader(FilmRepository repo) {

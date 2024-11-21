@@ -7,13 +7,11 @@ import org.example.medialibrary.entity.dto.PackDto;
 import org.example.medialibrary.service.AppUserAuthService;
 import org.example.medialibrary.service.ImageService;
 import org.example.medialibrary.service.PackService;
+import org.example.medialibrary.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -32,6 +30,9 @@ public class AppUserPackController {
 
     @Autowired
     private AppUserAuthService appUserAuthService;
+
+    @Autowired
+    private RatingService ratingService;
 
     @Autowired
     private AppPropertiesConfiguration appPropertiesConfiguration;
@@ -54,7 +55,7 @@ public class AppUserPackController {
             model.addAttribute("packs", new ArrayList<PackDto>());
         }
 
-        return "pack-list";
+        return "user-pack-list";
     }
 
     @GetMapping("/create")
@@ -86,5 +87,35 @@ public class AppUserPackController {
             return "redirect:/user/pack";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/{id}")
+    public String getPublicPackById(@PathVariable Long id, Model model) {
+
+        appUserAuthService.generatePublicHeaderData(model);
+
+        Optional<Pack> pack = packService.getPackById(id);
+        Optional<AppUser> userOptional = appUserAuthService.getAppUser();
+        if (pack.isPresent() && userOptional.isPresent()) {
+            AppUser user = userOptional.get();
+            Pack packObj = pack.get();
+
+            if (!packService.isPackOwnedByUser(packObj.getId(), user.getId())) {
+                return "error/403";
+            }
+
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("userName", user.getUsername());
+            model.addAttribute("galleryTitle", packObj.getName());
+            model.addAttribute("description", packObj.getDescription());
+            model.addAttribute("packId", packObj.getId());
+            model.addAttribute("averageRating", ratingService.getFilmPackRating(packObj.getLike(), packObj.getDislike()));
+            model.addAttribute("backUrl", "/user/pack");
+            model.addAttribute("films", packService.getFilmsFromPack(packObj));
+
+            return "user-pack-view";
+        }
+
+        return "error/404";
     }
 }

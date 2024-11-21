@@ -51,10 +51,9 @@
         <p>Рейтинг: <span th:text="${averageRating}">0</span>/5</p>
         <p th:text="${description}">Описание коллекции фильмов...</p>
         <div class="d-flex justify-content-center mb-3">
-            <button id="likeButton" type="button" class="btn btn-outline-success mx-2"
-                    th:attr="data-pack-id=${packId}">👍 Like</button>
-            <button id="dislikeButton" type="button" class="btn btn-outline-danger mx-2"
-                    th:attr="data-pack-id=${packId}">👎 Dislike</button>
+            <a th:href="@{/like/{id}(id=${packId})}" class="btn btn-outline-success mx-2">👍 Like</a>
+
+            <a th:href="@{/dislike/{id}(id=${packId})}" class="btn btn-outline-danger mx-2">👎 Dislike</a>
         </div>
         <!-- Back button with dynamic path -->
         <a th:href="${backUrl}" class="btn btn-secondary">Вернуться</a>
@@ -76,35 +75,35 @@
     </div>
 </div>
 
-<script>
-    document.getElementById("likeButton").addEventListener("click", function() {
-        const packId = this.getAttribute("data-pack-id");
-        $.ajax({
-            url: `/like?id=${packId}`,
-            type: "POST",
-            success: function() {
-                console.log("Лайк отправлен успешно");
-            },
-            error: function(xhr, status, error) {
-                console.error("Ошибка отправки лайка:", error);
-            }
-        });
-    });
+<!--<script>-->
+<!--    document.getElementById("likeButton").addEventListener("click", function() {-->
+<!--        const packId = this.getAttribute("data-pack-id");-->
+<!--        $.ajax({-->
+<!--            url: `/like?id=${packId}`,-->
+<!--            type: "POST",-->
+<!--            success: function() {-->
+<!--                console.log("Лайк отправлен успешно");-->
+<!--            },-->
+<!--            error: function(xhr, status, error) {-->
+<!--                console.error("Ошибка отправки лайка:", error);-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
 
-    document.getElementById("dislikeButton").addEventListener("click", function() {
-        const packId = this.getAttribute("data-pack-id");
-        $.ajax({
-            url: `/like?id=${packId}`,
-            type: "POST",
-            success: function() {
-                console.log("Дизлайк отправлен успешно");
-            },
-            error: function(xhr, status, error) {
-                console.error("Ошибка отправки дизлайка:", error);
-            }
-        });
-    });
-</script>
+<!--    document.getElementById("dislikeButton").addEventListener("click", function() {-->
+<!--        const packId = this.getAttribute("data-pack-id");-->
+<!--        $.ajax({-->
+<!--            url: `/like?id=${packId}`,-->
+<!--            type: "POST",-->
+<!--            success: function() {-->
+<!--                console.log("Дизлайк отправлен успешно");-->
+<!--            },-->
+<!--            error: function(xhr, status, error) {-->
+<!--                console.error("Ошибка отправки дизлайка:", error);-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>
 

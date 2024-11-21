@@ -6,6 +6,7 @@ import org.example.medialibrary.entity.Film;
 import org.example.medialibrary.entity.Genre;
 import org.example.medialibrary.entity.dto.FilmDTO;
 import org.example.medialibrary.repository.FilmRepository;
+import org.example.medialibrary.repository.PackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class FilmService {
 
     @Autowired
     private FilmRepository filmRepository;
+
+    @Autowired
+    private PackRepository packRepository;
 
     @Autowired
     private ImageService imageService;
@@ -65,6 +69,11 @@ public class FilmService {
     // Создать новый фильм
     public Film createFilm(Film film) {
         return filmRepository.save(film);
+    }
+
+    @Transactional
+    public boolean isFilmOwnedByUser(Long filmId, Long userId) {
+        return packRepository.existsByUserIdAndFilmsId(userId, filmId);
     }
 
     // Обновить существующий фильм

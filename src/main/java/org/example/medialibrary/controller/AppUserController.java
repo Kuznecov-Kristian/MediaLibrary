@@ -29,10 +29,7 @@ public class AppUserController {
 
 
 
-    @GetMapping("/pack/{id}")
-    public String pack(@PathVariable long id) {
-        return "pack-view";
-    }
+
 
     @GetMapping("/pack/edit/{id}")
     public String packEdit(@PathVariable long id) {

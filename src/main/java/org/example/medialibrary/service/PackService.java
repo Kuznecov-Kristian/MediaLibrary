@@ -86,7 +86,6 @@ public class PackService {
         packRepository.deleteById(id);
     }
 
-    // Увеличить лайки
     @Transactional
     public void incrementLikes(Long packId) {
         packRepository.findById(packId).ifPresent(pack -> {
@@ -95,7 +94,6 @@ public class PackService {
         });
     }
 
-    // Увеличить дизлайки
     @Transactional
     public void incrementDislikes(Long packId) {
         packRepository.findById(packId).ifPresent(pack -> {
@@ -149,6 +147,10 @@ public class PackService {
         return filmService.convertToDTO(film);
     }
 
+    @Transactional
+    public boolean isPackOwnedByUser(Long packId, Long userId) {
+        return packRepository.existsByIdAndUserId(packId, userId);
+    }
 
     @Transactional
     public List<PackDto> getLimitedAccessiblePacksDto(int limit) {

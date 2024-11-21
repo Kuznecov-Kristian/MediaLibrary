@@ -22,13 +22,13 @@ public class AuthController {
     @GetMapping("/registration")
     public String registrationForm(Model model) {
         model.addAttribute("user", new AppUser());
-        return "registration";
+        return "auth/registration";
     }
 
     @PostMapping("/registration")
     public String registerUser(AppUser user, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "registration";
+            return "auth/registration";
         }
 
         userService.registerUser(user);
@@ -37,7 +37,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "auth/login";
     }
 
     @PostMapping("/logout")

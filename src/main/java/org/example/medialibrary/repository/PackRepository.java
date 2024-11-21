@@ -19,4 +19,8 @@ public interface PackRepository extends JpaRepository<Pack, Long> {
     List<Pack> findAllByUser(AppUser user);
 
     Optional<Pack> findByNameAndUser(String name, AppUser user);
+
+    boolean existsByIdAndUserId(Long packId, Long userId);
+
+    boolean existsByUserIdAndFilmsId(Long userId, Long filmId);
 }
