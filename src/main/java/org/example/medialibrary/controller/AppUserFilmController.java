@@ -200,20 +200,5 @@ public class AppUserFilmController {
         }
         return "redirect:/user/pack";
 
-//        try {
-//            if (!imageFile.isEmpty()) {
-//                updatedFilm.setImage(imageFile.getBytes());
-//            } else {
-//                Film existingFilm = filmService.getFilmById(id)
-//                        .orElseThrow(() -> new IllegalArgumentException("Фильм с id " + id + " не найден"));
-//                updatedFilm.setImage(existingFilm.getImage());
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException("Ошибка загрузки изображения", e);
-//        }
-//
-//        updatedFilm.setId(id); // Обязательно устанавливаем ID
-//        //filmService.updateFilm(updatedFilm);
-
     }
 }

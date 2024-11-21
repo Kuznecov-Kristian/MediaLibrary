@@ -26,15 +26,4 @@ public class AppUserController {
         }
     }
 
-
-
-
-
-
-    @GetMapping("/pack/edit/{id}")
-    public String packEdit(@PathVariable long id) {
-        return "edit-pack";
-    }
-
-
 }

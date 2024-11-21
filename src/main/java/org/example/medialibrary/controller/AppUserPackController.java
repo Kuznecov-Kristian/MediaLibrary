@@ -2,6 +2,8 @@ package org.example.medialibrary.controller;
 
 import org.example.medialibrary.configuration.AppPropertiesConfiguration;
 import org.example.medialibrary.entity.AppUser;
+import org.example.medialibrary.entity.Film;
+import org.example.medialibrary.entity.Genre;
 import org.example.medialibrary.entity.Pack;
 import org.example.medialibrary.entity.dto.PackDto;
 import org.example.medialibrary.service.AppUserAuthService;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -117,5 +120,68 @@ public class AppUserPackController {
         }
 
         return "error/404";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editFilmPage(@PathVariable Long id, Model model) {
+
+        Optional<AppUser> userOptional = appUserAuthService.getAppUser();
+        if (userOptional.isPresent()) {
+            AppUser user = userOptional.get();
+
+            Optional<Pack> optionalPack = packService.getPackById(id);
+            if (optionalPack.isEmpty()) {
+                return "error/404";
+            }
+            Pack pack = optionalPack.get();
+
+            if(!packService.isPackOwnedByUser(pack.getId(), user.getId())) {
+                return "error/403";
+            }
+
+            appUserAuthService.generatePublicHeaderData(model);
+
+
+            model.addAttribute("packId", pack.getId());
+            model.addAttribute("oldTitle", pack.getName());
+            model.addAttribute("oldDescription", pack.getDescription());
+            model.addAttribute("oldAccessibleToAll", pack.isAccessibleToAll());
+            model.addAttribute("oldAccessibleToFriends", pack.isAccessibleToFriends());
+            return "edit-pack";
+        }
+
+        return "error/something-went-wrong";
+
+    }
+
+
+    @PostMapping("/edit/{id}")
+    public String editFilm(@PathVariable Long id,
+                           @RequestParam("newTitle") String title,
+                           @RequestParam("newDescription") String description,
+                           @RequestParam(value = "newAccessibleToAll", defaultValue = "false") boolean accessibleToAll,
+                           @RequestParam(value = "newAccessibleToFriends", defaultValue = "false") boolean accessibleToFriends,
+                           @RequestParam(value = "newImage", required = false) MultipartFile imageFile) {
+
+        Optional<Pack> optionalPack = packService.getPackById(id);
+        if (optionalPack.isPresent()) {
+            Pack pack = optionalPack.get();
+            pack.setName(title);
+            pack.setDescription(description);
+            pack.setAccessibleToAll(accessibleToAll);
+            pack.setAccessibleToFriends(accessibleToFriends);
+
+            if (!imageFile.isEmpty()) {
+                try {
+                    pack.setImage(imageFile.getBytes());
+                } catch (IOException e) {
+                    pack.setImage(new byte[0]);
+                }
+            }
+
+            packService.updatePack(id, pack);
+        }
+        return "redirect:/user/pack/" + id;
+
     }
 }

@@ -32,6 +32,7 @@
     <a class="navbar-brand" href="#">Film Library</a>
     <div class="d-flex">
       <a class="nav-link text-light" href="/">На главную</a>
+      <a class="nav-link text-light" th:href="@{/user/pack/create}">Создать подборку</a>
       <a th:text="${userName}" th:href="@{/user/{id}(id=${userId})}" class="nav-link text-light">Пользователь</a>
       <a class="nav-link text-light" href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Выйти</a>
 

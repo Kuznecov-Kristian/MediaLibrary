@@ -35,7 +35,7 @@
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-light" href="#" id="packSetting" role="button" data-bs-toggle="dropdown" aria-expanded="false">Настройки</a>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="packSetting">
-                    <li><a class="dropdown-item" th:href="@{/zag}">Редактировать подборку</a></li>
+                    <li><a class="dropdown-item" th:href="@{/user/pack/edit/{id}(id=${packId})}">Редактировать подборку</a></li>
                     <li><a class="dropdown-item" th:href="@{/zag}">Добавить фильм</a></li>
                     <!-- <li><a class="dropdown-item" th:href="@{/user/{id}(id=${userId})}">Добавить фильм</a></li>-->
                 </ul>
